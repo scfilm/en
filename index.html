@@ -1,0 +1,237 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>黑洞AI英语学习系统 · NBNT引擎</title>
+  <meta name="description" content="根据 Dr.Kurt 神经生物叙事学理论构建 · 99元开通 · 游戏化闯关 · 30天助力突破雅思">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">BLACKHOLE</div>
+      <div class="title-wrap">
+        <h1>黑洞AI英语学习系统</h1>
+        <p class="subtitle">根据 Dr.Kurt 神经生物叙事学理论构建 · 30天助力突破雅思</p>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="#arenaSection">生存闯关</a>
+      <a href="#questSection">NBNT任务</a>
+      <a href="#vocabSection">词汇宇宙</a>
+      <a href="#dashSection">进度面板</a>
+    </nav>
+    <div class="cta">
+      <div class="price">¥99 / 30天</div>
+      <button id="startBtn" class="primary">开始学习</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h2>用“神经生物叙事”训练<strong>能说/能打</strong>的词汇力</h2>
+      <p>NBNT 六步：<b>需求触发</b> → <b>微叙事</b> → <b>动作产出</b> → <b>即时奖励</b> → <b>复述迁移</b> → <b>间隔巩固</b>。
+      你将在强烈生存场景下进行英文产出，像打游戏一样过关斩将。</p>
+      <ul class="bullets">
+        <li>生存闯关（倒计时/连击/错题回炉/同义词容错）</li>
+        <li>NBNT 任务（剧情-口令-复述-迁移）+ 语音识别/发音</li>
+        <li>5000+ 中文提问模板生成题库，词根与场景双线巩固</li>
+      </ul>
+    </div>
+    <div class="hero-card">
+      <div class="stat"><strong>5000+</strong><span>中文提问</span></div>
+      <div class="stat"><strong>99</strong><span>元开通</span></div>
+      <div class="stat"><strong>30</strong><span>天闯关</span></div>
+    </div>
+  </section>
+
+  <section class="modules">
+    <h3>学习模块</h3>
+    <div class="grid">
+      <a class="card tone-orange" data-module="arena">生存闯关（Arena）</a>
+      <a class="card tone-amber" data-module="quest">NBNT任务（剧情驱动）</a>
+      <a class="card tone-green" data-module="review">记忆复盘（SRS）</a>
+      <a class="card tone-blue" data-module="exam">雅思专项训练</a>
+      <a class="card tone-berry" data-module="vocab">词汇宇宙（词根5000）</a>
+      <a class="card tone-slate" data-module="dash">进度面板（Recall & 连续天数）</a>
+    </div>
+  </section>
+
+  <!-- Arena -->
+  <section class="arena" id="arenaSection">
+    <div class="bar">
+      <div class="chips">
+        <button class="chip on" data-tag="all">全部</button>
+        <button class="chip" data-tag="survival">生存</button>
+        <button class="chip" data-tag="nav">导航</button>
+        <button class="chip" data-tag="health">健康</button>
+        <button class="chip" data-tag="money">金钱</button>
+        <button class="chip" data-tag="travel">出行</button>
+        <button class="chip" data-tag="time">时间</button>
+        <button class="chip" data-tag="social">社交</button>
+      </div>
+      <div class="toggles">
+        <label class="switch"><input id="sfxToggle" type="checkbox" checked><span>音效</span></label>
+        <label class="switch"><input id="ttsToggle" type="checkbox" checked><span>发音</span></label>
+        <label class="switch"><input id="timerToggle" type="checkbox" checked><span>倒计时</span></label>
+        <label class="switch"><input id="micToggle" type="checkbox"><span>语音答题</span></label>
+      </div>
+    </div>
+
+    <div class="hud">
+      <div class="hearts" id="hearts"></div>
+      <div class="combo" id="combo">×1</div>
+      <div class="score" id="score">0</div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="timer" id="timer">--</div>
+    </div>
+
+    <div class="question" id="question">点击“开始对战”进入第一关</div>
+
+    <div class="input-row">
+      <input id="answerInput" placeholder="在这里打出英文，或开启语音答题（不区分大小写）"/>
+      <button id="submitBtn" class="primary">提交</button>
+      <button id="skipBtn" class="ghost">跳过(-1♥)</button>
+      <button id="micBtn" class="ghost">🎤 开始说</button>
+    </div>
+
+    <div class="actions-row">
+      <button id="startArena" class="bigbtn">开始对战</button>
+      <button id="bossBtn" class="bigbtn ghost">挑战BOSS</button>
+    </div>
+
+    <div class="tiny-hint">提示：答案可能是<strong>单词或短语</strong>（如 <em>turn left</em>、<em>how much</em>）。</div>
+  </section>
+
+  <!-- NBNT Quest -->
+  <section class="quest" id="questSection">
+    <h3>NBNT 任务（剧情驱动）</h3>
+    <div class="quest-wrap">
+      <aside class="quest-list" id="questList"></aside>
+      <main class="quest-main">
+        <div class="quest-steps">
+          <div class="qstep" id="qstep1">
+            <h4>① 需求触发（Need）</h4>
+            <p id="needText">选择左侧一个任务开始。</p>
+            <button id="toStep2" class="primary small">进入微叙事</button>
+          </div>
+          <div class="qstep" id="qstep2">
+            <h4>② 微叙事（60–90秒）</h4>
+            <div id="storyText" class="storybox"></div>
+            <div class="shadowing">
+              <button class="ghost" data-rate="1">朗读 ×1.0</button>
+              <button class="ghost" data-rate="1.2">朗读 ×1.2</button>
+              <button class="ghost" data-rate="1.4">朗读 ×1.4</button>
+            </div>
+            <button id="toStep3" class="primary small">去执行口令</button>
+          </div>
+          <div class="qstep" id="qstep3">
+            <h4>③ 动作产出（Action）</h4>
+            <div id="actionHint" class="actionhint"></div>
+            <div class="input-row">
+              <input id="questInput" placeholder="输入或点击 🎤 说出关键口令"/>
+              <button id="questSubmit" class="primary">提交</button>
+              <button id="questMic" class="ghost">🎤 说出</button>
+            </div>
+            <div id="actionFeedback" class="feedback"></div>
+            <button id="toStep4" class="primary small">下一步</button>
+          </div>
+          <div class="qstep" id="qstep4">
+            <h4>④ 即时奖励（Reward）</h4>
+            <p id="rewardText">正确即加分、连击、烟花；错误最小提示并回炉。</p>
+            <button id="toStep5" class="primary small">去复述</button>
+          </div>
+          <div class="qstep" id="qstep5">
+            <h4>⑤ 复述与迁移（Retell & Transfer）</h4>
+            <p>用你自己的话<strong>30秒复述</strong>刚才的故事（或在新地点试一次同样的表达）。</p>
+            <div class="retell">
+              <button id="retellMic" class="bigbtn">🎤 开始复述（30s）</button>
+              <div id="retellTimer">30</div>
+              <div id="retellResult" class="retellbox"></div>
+            </div>
+            <button id="toStep6" class="primary small">安排复习</button>
+          </div>
+          <div class="qstep" id="qstep6">
+            <h4>⑥ 间隔巩固（SRS）</h4>
+            <p>系统已为本任务设置复习安排。到时间会在“记忆复盘”提醒你。</p>
+            <div id="srsPlan" class="srsplan"></div>
+            <button id="restartQuest" class="ghost">再练一次或换任务</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- Vocab -->
+  <section class="vocab" id="vocabSection">
+    <h3>词汇宇宙 · 样例（完整5000词请在付费后解锁）</h3>
+    <div class="vocab-controls">
+      <input id="searchInput" placeholder="按词、词根、主题搜索（如 bene / hungry / travel）"/>
+      <button id="shuffleBtn" class="ghost">随机10个</button>
+    </div>
+    <div id="vocabList" class="vocab-list"></div>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="dash" id="dashSection">
+    <h3>进度面板</h3>
+    <div class="dash-grid">
+      <div class="tile">
+        <div class="tile-k">当日学习分钟</div>
+        <div class="tile-v" id="mToday">0</div>
+      </div>
+      <div class="tile">
+        <div class="tile-k">累计正确 / 错误</div>
+        <div class="tile-v" id="cwCount">0 / 0</div>
+      </div>
+      <div class="tile">
+        <div class="tile-k">连击最高</div>
+        <div class="tile-v" id="bestCombo">0</div>
+      </div>
+      <div class="tile">
+        <div class="tile-k">SRS 待复习</div>
+        <div class="tile-v" id="dueCount">0</div>
+      </div>
+      <div class="tile">
+        <div class="tile-k">连续学习天数</div>
+        <div class="tile-v" id="streak">0</div>
+      </div>
+    </div>
+    <div class="tiny-hint">备注：以上为原型本地统计，正式版将接入服务器与多设备同步。</div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="policy">
+      <p><strong>付费说明：</strong>本产品售价 <strong>¥99</strong>（30天访问权限）。付款即视为服务已开通，<strong>不支持退款</strong>。</p>
+      <p>为保障权益，请使用本页面的支付宝二维码或官方订单链接支付。效果因人而异，请理性学习。</p>
+    </div>
+    <div class="copyright">© 黑洞AI英语学习系统</div>
+  </footer>
+
+  <!-- 支付墙 -->
+  <div id="paywall" class="paywall hidden">
+    <div class="pay-dialog">
+      <h3>开通后学习全部模块</h3>
+      <p class="price-line">¥99 / 30天 · 支付后刷新页面自动生效</p>
+      <div class="qr-wrap">
+        <img src="assets/alipay_qr.jpg" alt="支付宝付款二维码"/>
+      </div>
+      <div class="tiny">若已完成支付，点击下方按钮验证。</div>
+      <div class="actions">
+        <button id="verifyBtn" class="primary">我已支付，验证并开始</button>
+        <button id="closePay" class="ghost">稍后再说</button>
+      </div>
+      <div class="legal">付款即视为开通服务，不支持退款。</div>
+    </div>
+  </div>
+
+  <canvas id="burstCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
